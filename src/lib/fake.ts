@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import faker from 'faker';
+import {faker} from '@faker-js/faker';
 import {fixedData} from './fixed-data';
 
 /**
@@ -24,5 +24,5 @@ export function fake(mockType: string, isFixedMode = false) {
     return fixedData[mockType];
   }
 
-  return faker.fake(`{{${mockType}}}`);
+  return faker.helpers.fake(`{{${mockType}}}`);
 }

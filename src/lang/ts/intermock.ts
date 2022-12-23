@@ -338,8 +338,7 @@ function processPropertyTypeReference(
                       }
                       return t;
                     });
-            ((record.node as ts.TypeAliasDeclaration).type as
-             ts.UnionOrIntersectionTypeNode)
+            ((record.node as ts.TypeAliasDeclaration).type as any)
                 .types = updatedArr as unknown as ts.NodeArray<ts.TypeNode>;
             processUnionPropertyType(
                 record.node as ts.PropertySignature, output, property, typeName,
@@ -382,7 +381,7 @@ function processJsDocs(
   const tagValue = extractTagValue(tag);
 
   switch (tag.tagName.text) {
-    case 'mockType':
+    case 'mock':
       const mock = generatePrimitive(property, node.kind, options, tagValue);
       output[property] = mock;
       break;
@@ -478,7 +477,7 @@ function resolveTuplePropertyType(
     node: ts.TupleTypeNode, property: string, sourceFile: ts.SourceFile,
     options: Options, types: Types): Array<unknown> {
   const result = [];
-  const {elementTypes} = node;
+  const {elementTypes} = node as any;
 
   for (let i = 0; i < elementTypes.length; i++) {
     const typeNode = elementTypes[i];
@@ -595,7 +594,7 @@ function processUnionPropertyType(
   }
 }
 
-const SUPPORTED_JSDOC_TAGNAMES = ['mockType', 'mockRange'] as const;
+const SUPPORTED_JSDOC_TAGNAMES = ['mock', 'mockRange'] as const;
 type SupportedJsDocTagName = typeof SUPPORTED_JSDOC_TAGNAMES[number];
 
 
@@ -606,13 +605,7 @@ type SupportedJsDocTagName = typeof SUPPORTED_JSDOC_TAGNAMES[number];
  */
 function extractTagValue(tag: ts.JSDocTag): string {
   let value = tag.comment || '';
-
-  // Unwrap from braces
-  if (value[0] === '{' && value[value.length - 1] === '}') {
-    value = value.slice(1, -1);
-  }
-
-  return value;
+  return value.toString();
 }
 
 interface SupportedJSDocTag extends ts.JSDocTag {

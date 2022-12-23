@@ -76,7 +76,7 @@ interface SchoolRecord {
     (interfacesToMock as HTMLInputElement).value =
         initialInterfacesToMock.join(',');
     interfacesToMock.addEventListener('keydown', (e) => {
-      if (e.keyCode === 13) {
+      if (e.keyCode === 13) { 
         if (editor && mockCodeBlock && interfacesToMock) {
           createMock(
               intermock, interfacesToMock, mockCodeBlock, editor.getValue());

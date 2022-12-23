@@ -12,7 +12,6 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "module": "commonjs",
-    "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "outDir": "build",
